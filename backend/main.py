@@ -1,19 +1,30 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from app.api.resume import router as resume_router
 
 app = FastAPI(
-    title="AI Interview Analyzer API",
-    version="1.0.0",
-    description="Backend API for AI Interview Analyzer"
+    title="AI Interview Analyzer",
+    version="1.0"
 )
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(
+    resume_router,
+    prefix="/resume",
+    tags=["Resume"],
+)
+
 
 @app.get("/")
 def root():
     return {
-        "message": "AI Interview Analyzer Backend is Running 🚀"
-    }
-
-@app.get("/health")
-def health():
-    return {
-        "status": "Healthy"
+        "message": "Backend Running Successfully 🚀"
     }

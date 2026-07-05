@@ -1,73 +1,93 @@
 import { useState } from "react";
+import api from "../api/api";
 
 function ResumeUpload() {
-  const [file, setFile] = useState(null);
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-  };
+    const [file, setFile] = useState(null);
 
-  const handleUpload = () => {
-    if (!file) {
-      alert("Please select a PDF resume first.");
-      return;
-    }
+    const [message, setMessage] = useState("");
 
-    alert(`Selected Resume: ${file.name}`);
-  };
+    const handleUpload = async () => {
 
-  return (
-    <div
-      style={{
-        width: "500px",
-        background: "#ffffff",
-        padding: "40px",
-        borderRadius: "15px",
-        boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
-        textAlign: "center",
-      }}
-    >
-      <h1>🎯 AI Interview Analyzer</h1>
+        if (!file) {
 
-      <p>
-        Upload your resume to begin your AI-powered mock interview.
-      </p>
+            alert("Please choose a PDF.");
 
-      <br />
+            return;
 
-      <input
-        type="file"
-        accept=".pdf"
-        onChange={handleFileChange}
-      />
+        }
 
-      <br />
-      <br />
+        const formData = new FormData();
 
-      {file && (
-        <p>
-          📄 <b>{file.name}</b>
-        </p>
-      )}
+        formData.append("file", file);
 
-      <br />
+        try {
 
-      <button
-        onClick={handleUpload}
-        style={{
-          background: "#2563eb",
-          color: "white",
-          border: "none",
-          padding: "12px 25px",
-          borderRadius: "8px",
-          cursor: "pointer",
-          fontSize: "16px",
-        }}
-      >
-        Upload Resume
-      </button>
-    </div>
-  );
+            const response = await api.post(
+                "/resume/upload",
+                formData
+            );
+
+            setMessage(response.data.message);
+
+        } catch (error) {
+
+            console.log(error);
+
+            setMessage("Upload Failed");
+
+        }
+
+    };
+
+    return (
+
+        <div
+            style={{
+                width: "500px",
+                margin: "100px auto",
+                padding: "30px",
+                background: "white",
+                borderRadius: "10px",
+                boxShadow: "0px 0px 20px rgba(0,0,0,0.1)",
+                textAlign: "center",
+            }}
+        >
+
+            <h1>AI Interview Analyzer</h1>
+
+            <p>Upload Your Resume</p>
+
+            <input
+
+                type="file"
+
+                accept=".pdf"
+
+                onChange={(e) => setFile(e.target.files[0])}
+
+            />
+
+            <br />
+
+            <br />
+
+            <button onClick={handleUpload}>
+
+                Upload Resume
+
+            </button>
+
+            <br />
+
+            <br />
+
+            <h3>{message}</h3>
+
+        </div>
+
+    );
+
 }
 
 export default ResumeUpload;
