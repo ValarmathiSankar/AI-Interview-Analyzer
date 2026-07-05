@@ -4,6 +4,7 @@ from app.utils.pdf_reader import extract_text_from_pdf
 from app.utils.text_cleaner import clean_resume_text
 from app.utils.skill_extractor import extract_skills
 from app.utils.ats_calculator import calculate_ats_score
+from app.utils.resume_feedback import generate_resume_feedback
 
 UPLOAD_FOLDER = "uploads"
 
@@ -21,6 +22,12 @@ def process_resume(filename):
     ats_result = calculate_ats_score(
         cleaned_text,
         detected_skills
+        
+    )
+
+    feedback = generate_resume_feedback(
+    cleaned_text,
+    detected_skills
     )
 
     return {
@@ -33,6 +40,8 @@ def process_resume(filename):
 
         "strengths": ats_result["strengths"],
 
-        "improvements": ats_result["improvements"]
+        "improvements": ats_result["improvements"],
+
+        "suggestions": feedback
 
     }
