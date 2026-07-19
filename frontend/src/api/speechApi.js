@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:8000/speech";
+const API_URL = "https://ai-interview-backend-epg6.onrender.com/speech";
 
 export const transcribeAudio = async (audioBlob) => {
   const formData = new FormData();
