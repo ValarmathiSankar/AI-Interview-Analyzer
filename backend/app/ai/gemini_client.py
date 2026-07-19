@@ -8,7 +8,7 @@ load_dotenv()
 
 # Read API Key
 API_KEY = os.getenv("GEMINI_API_KEY")
-
+print("API KEY:", API_KEY[:10])
 # Create Gemini Client
 client = genai.Client(api_key=API_KEY)
 
@@ -21,7 +21,7 @@ def ask_gemini(prompt: str):
     try:
 
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-flash-latest",
             contents=prompt,
         )
 

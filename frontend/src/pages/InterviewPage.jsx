@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { InterviewContext } from "../context/InterviewContext";
 import { Container, Grid, Typography } from "@mui/material";
 
@@ -7,18 +8,77 @@ import Timer from "../components/interview/Timer";
 import TranscriptBox from "../components/interview/TranscriptBox";
 import ControlButtons from "../components/interview/ControlButtons";
 import ProgressCard from "../components/interview/ProgressCard";
+import { evaluateAnswer } from "../api/evaluationApi";
 
 function InterviewPage() {
     const {
         questions,
         currentQuestion,
         setCurrentQuestion,
+
+        transcript,
+        setTranscript,
+
+        answers,
+        setAnswers,
+
+        evaluations,
+        setEvaluations,
+        
     } = useContext(InterviewContext); 
 
-    const nextQuestion = () => {
-        if (currentQuestion < questions.length - 1) {
-            setCurrentQuestion(currentQuestion + 1);
-        }
+    console.log("Evaluations:", evaluations);
+
+    const nextQuestion = async () => {
+
+      if (!transcript.trim()) {
+        alert("Please record your answer first.");
+        return;
+      }
+
+      const question = questions[currentQuestion];
+
+      setAnswers((prev) => [
+        ...prev,
+        {
+            question,
+            answer: transcript,
+        },
+      ]);
+
+      try {
+
+        const result = await evaluateAnswer(
+          question,
+          transcript
+        );
+
+        console.log(result);
+
+        setEvaluations((prev) => [
+            ...prev,
+            {
+              question,
+              answer: transcript,
+              ...result,
+            },
+        ]);
+
+      } catch (err) {
+
+        console.error(err);
+
+      }
+
+      setTranscript("");
+
+      if (currentQuestion < questions.length - 1) {
+
+        setCurrentQuestion((prev) => prev + 1);
+
+      } else {
+        navigate("/reports");
+      }
     };
 
     const previousQuestion = () => {
@@ -26,6 +86,8 @@ function InterviewPage() {
             setCurrentQuestion(currentQuestion - 1);
         }
     };
+
+    const navigate = useNavigate();
 
   return (
 

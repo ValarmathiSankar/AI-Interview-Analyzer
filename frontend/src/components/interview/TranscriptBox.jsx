@@ -1,6 +1,10 @@
 import { Card, CardContent, Typography } from "@mui/material";
+import { useContext } from "react";
+import { InterviewContext } from "../../context/InterviewContext";
 
 function TranscriptBox() {
+
+  const { transcript } = useContext(InterviewContext);
 
   return (
 
@@ -16,8 +20,8 @@ function TranscriptBox() {
 
         <Typography>
 
-          Waiting for speech...
-
+          {transcript || "Waiting for speech..."}
+          
         </Typography>
 
       </CardContent>

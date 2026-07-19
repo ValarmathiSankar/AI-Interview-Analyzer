@@ -37,14 +37,7 @@ function Sidebar() {
 
           <ListItemText primary="Dashboard" />
         </ListItemButton>
-
-        <ListItemButton component={Link} to="/resume">
-          <ListItemIcon>
-            <DescriptionIcon />
-          </ListItemIcon>
-
-          <ListItemText primary="Resume Analyzer" />
-        </ListItemButton>
+        
 
         <ListItemButton component={Link} to="/interview">
           <ListItemIcon>

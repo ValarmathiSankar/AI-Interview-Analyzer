@@ -37,16 +37,28 @@ function Dashboard() {
   };
 
   const handleGenerateQuestions = async () => {
-    if (!analysis) return;
+    console.log("Generate button clicked");
+
+    if (!analysis) {
+      console.log("Analysis is null");
+      return;
+    }
 
     try {
+      console.log("Skills:", analysis.skills);
+
       const response = await generateQuestions(analysis.skills);
+
+      console.log("API Response:", response);
+
       setQuestions(response.questions);
+
+      console.log("Questions saved!");
     } catch (err) {
-      console.error(err);
+      console.error("Error:", err);
     }
   };
-
+  
   const startInterview = () => {
       navigate("/interview");
   };

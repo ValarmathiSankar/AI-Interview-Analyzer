@@ -12,6 +12,11 @@ export function InterviewProvider({ children }) {
 
   const [answers, setAnswers] = useState([]);
 
+  const [evaluations, setEvaluations] = useState([]);
+
+  const [transcript, setTranscript] = useState("");
+
+
   return (
     <InterviewContext.Provider
       value={{
@@ -26,6 +31,12 @@ export function InterviewProvider({ children }) {
 
         answers,
         setAnswers,
+
+        evaluations,
+        setEvaluations,
+
+        transcript,
+        setTranscript,
       }}
     >
       {children}
