@@ -19,6 +19,6 @@ async def upload_resume(file: UploadFile = File(...)):
     with open(filepath, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    result = process_resume(file.filename)
+    result = process_resume(filepath)
 
     return result
