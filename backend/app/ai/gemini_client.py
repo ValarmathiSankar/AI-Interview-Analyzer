@@ -29,4 +29,4 @@ def ask_gemini(prompt: str):
 
     except Exception as e:
 
-        return f"Error: {str(e)}"
+        raise Exception(str(e))
